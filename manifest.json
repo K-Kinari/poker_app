@@ -2,7 +2,7 @@
   "name": "Poker Chips",
   "short_name": "PokerChips",
   "description": "1台完結型ポーカーチップカウンター",
-  "start_url": "/index.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#0a0e14",
