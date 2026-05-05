@@ -125,7 +125,7 @@ export function renderTableScreen(container, onAction, onAdminOpen) {
     const adminWrapper = el('div', { className: 'slot-admin' });
     const trigger = el('button', {
       className: 'admin-trigger seat glass',
-      html: '<div style="font-size: 2.4rem; margin-bottom: 4px;">⚙</div><div style="font-size: 1.5rem; font-weight: bold;">管理</div>',
+      html: '<div style="font-size: 1.2rem; margin-bottom: 2px;">⚙</div><div style="font-size: 0.75rem; font-weight: bold;">管理</div>',
       onClick: onAdminOpen,
     });
     adminWrapper.appendChild(trigger);
