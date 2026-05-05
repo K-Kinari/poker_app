@@ -1,0 +1,6 @@
+起動方法
+powershell
+& "C:\Users\kinar\anaconda3\python.exe" -m http.server 8765
+ブラウザで http://localhost:8765 を開いてください。（現在サーバーは起動中です）
+
+ウォークスルーに全画面のスクリーンショットを含めています。Phase 2以降の実装に進む場合はお知らせください。
