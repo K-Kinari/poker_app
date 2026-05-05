@@ -226,6 +226,30 @@ input, select {
   border-radius: var(--radius-lg);
 }
 
+/* テーブル中央エリア内のボタンはコンパクトに */
+.table-middle .btn--large {
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  min-height: 44px;
+  border-radius: var(--radius-md);
+}
+
+.table-middle .btn--block {
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  min-height: 38px;
+}
+
+.table-middle .action-buttons {
+  width: 100%;
+  padding: 0 2px;
+  gap: 6px;
+}
+
+.table-middle .action-buttons__row {
+  gap: 6px;
+}
+
 .btn--block { width: 100%; }
 
 .btn:disabled {
@@ -394,14 +418,14 @@ input, select {
 }
 
 .action-info__player {
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   font-weight: 900;
   color: var(--gold);
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .action-info__detail {
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   color: var(--text-secondary);
   font-variant-numeric: tabular-nums;
 }
