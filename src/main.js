@@ -191,6 +191,7 @@ class PokerApp {
           player.stack += totalContrib;
           hand.playerTotalContributions[player.id] = 0;
           hand.playerBets[player.id] = 0;
+          if (hand.playerBetTypes) hand.playerBetTypes[player.id] = null;
         }
         // ステータスリセット
         if (player.status === PLAYER_STATUS.FOLDED || player.status === PLAYER_STATUS.ALLIN) {

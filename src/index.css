@@ -146,6 +146,27 @@ input, select {
   justify-content: center;
 }
 
+.seat-slot {
+  gap: 4px;
+  min-width: 0;
+}
+
+.seat-slot.slot-f,
+.seat-slot.slot-g {
+  flex-direction: column-reverse;
+}
+
+.seat-slot.slot-h,
+.seat-slot.slot-i {
+  flex-direction: row;
+}
+
+.seat-slot.slot-c,
+.seat-slot.slot-d,
+.seat-slot.slot-e {
+  flex-direction: row-reverse;
+}
+
 /* 笏€笏€笏€ Typography 笏€笏€笏€ */
 .text-xs { font-size: 0.7rem; }
 .text-sm { font-size: 0.8rem; }
@@ -370,6 +391,39 @@ input, select {
   font-weight: 600;
   color: var(--accent);
   font-variant-numeric: tabular-nums;
+}
+
+.seat-bet {
+  min-width: 58px;
+  max-width: 92px;
+  padding: 4px 8px;
+  border: 2px solid var(--amber);
+  border-radius: var(--radius-sm);
+  background: rgba(240,173,78,0.12);
+  color: var(--amber);
+  font-size: 0.72rem;
+  font-weight: 900;
+  line-height: 1;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: 0 0 12px rgba(240,173,78,0.18);
+}
+
+.seat-bet--call {
+  border-color: var(--green);
+  background: rgba(52,208,88,0.12);
+  color: var(--green);
+  box-shadow: 0 0 12px rgba(52,208,88,0.18);
+}
+
+.seat-bet--allin {
+  border-color: var(--red);
+  background: rgba(232,64,64,0.12);
+  color: var(--red);
+  box-shadow: 0 0 12px rgba(232,64,64,0.2);
 }
 
 .seat__badges {

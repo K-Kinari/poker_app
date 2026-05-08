@@ -106,6 +106,11 @@ export function collectBetsToPot(hand) {
     for (const pid of Object.keys(hand.playerBets)) {
       hand.playerBets[pid] = 0;
     }
+    if (hand.playerBetTypes) {
+      for (const pid of Object.keys(hand.playerBetTypes)) {
+        hand.playerBetTypes[pid] = null;
+      }
+    }
     hand.currentBetLine = 0;
     hand.lastRaiseSize = 0;
   }

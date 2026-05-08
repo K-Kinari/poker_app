@@ -61,7 +61,7 @@ export function createActionButtons(actions, onAction, player, hand, settings, o
     }));
   } else if (raise) {
     mainRow.appendChild(el('button', {
-      className: 'btn btn--primary btn--large',
+      className: 'btn btn--amber btn--large',
       text: 'RAISE',
       id: 'btn-raise',
       onClick: () => onShowBetPresets(ACTION_TYPES.RAISE),

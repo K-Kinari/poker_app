@@ -1,7 +1,7 @@
 // ── ブラインド管理 ──
 // NLH Dead Button ルール準拠
 
-import { PLAYER_STATUS } from '../utils/constants.js';
+import { ACTION_TYPES, PLAYER_STATUS } from '../utils/constants.js';
 
 /**
  * BTN, SB, BBの座席インデックスを計算する（Dead Button ルール）
@@ -128,6 +128,11 @@ export function postBlinds(players, seats, sbSeat, bbSeat, sbAmount, bbAmount, h
       if (sbPlayer.stack === 0) {
         sbPlayer.status = PLAYER_STATUS.ALLIN;
       }
+      if (hand.playerBetTypes) {
+        hand.playerBetTypes[sbPlayer.id] = sbPlayer.status === PLAYER_STATUS.ALLIN
+          ? ACTION_TYPES.ALLIN
+          : ACTION_TYPES.BET;
+      }
       events.push({
         type: 'blind_posted',
         playerId: sbPlayer.id,
@@ -147,6 +152,11 @@ export function postBlinds(players, seats, sbSeat, bbSeat, sbAmount, bbAmount, h
     hand.playerTotalContributions[bbPlayer.id] = (hand.playerTotalContributions[bbPlayer.id] || 0) + actualBB;
     if (bbPlayer.stack === 0) {
       bbPlayer.status = PLAYER_STATUS.ALLIN;
+    }
+    if (hand.playerBetTypes) {
+      hand.playerBetTypes[bbPlayer.id] = bbPlayer.status === PLAYER_STATUS.ALLIN
+        ? ACTION_TYPES.ALLIN
+        : ACTION_TYPES.BET;
     }
     events.push({
       type: 'blind_posted',

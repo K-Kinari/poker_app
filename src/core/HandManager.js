@@ -64,6 +64,7 @@ export function startNewHand(gameState) {
     currentBetLine: 0,
     lastRaiseSize: settings.bigBlind,
     playerBets: {},
+    playerBetTypes: {},
     playerTotalContributions: {},
     pots: [],
     collectedPot: 0,
@@ -74,6 +75,7 @@ export function startNewHand(gameState) {
   // 全プレイヤーのベットを初期化
   for (const player of players) {
     hand.playerBets[player.id] = 0;
+    hand.playerBetTypes[player.id] = null;
     hand.playerTotalContributions[player.id] = 0;
   }
 
@@ -126,6 +128,7 @@ export function executeAction(gameState, actionType, amount = 0) {
   if (!player) return { events: [], nextAction: 'error' };
 
   const currentBet = hand.playerBets[player.id] || 0;
+  if (!hand.playerBetTypes) hand.playerBetTypes = {};
 
   switch (actionType) {
     case ACTION_TYPES.CHECK: {
@@ -148,6 +151,7 @@ export function executeAction(gameState, actionType, amount = 0) {
 
       if (player.stack === 0) {
         player.status = PLAYER_STATUS.ALLIN;
+        hand.playerBetTypes[player.id] = ACTION_TYPES.ALLIN;
         events.push({
           type: 'allin',
           playerId: player.id,
@@ -155,6 +159,7 @@ export function executeAction(gameState, actionType, amount = 0) {
           amount: actualCall,
         });
       } else {
+        hand.playerBetTypes[player.id] = ACTION_TYPES.CALL;
         events.push({
           type: 'call',
           playerId: player.id,
@@ -188,6 +193,7 @@ export function executeAction(gameState, actionType, amount = 0) {
         hand.lastRaiseSize = hand.playerBets[player.id]; // betLine=0からのベットなのでベット額=レイズサイズ
         hand.currentBetLine = hand.playerBets[player.id];
         player.status = PLAYER_STATUS.ALLIN;
+        hand.playerBetTypes[player.id] = ACTION_TYPES.ALLIN;
         events.push({
           type: 'allin',
           playerId: player.id,
@@ -200,6 +206,7 @@ export function executeAction(gameState, actionType, amount = 0) {
         hand.playerTotalContributions[player.id] = (hand.playerTotalContributions[player.id] || 0) + betAmount;
         hand.lastRaiseSize = hand.playerBets[player.id];
         hand.currentBetLine = hand.playerBets[player.id];
+        hand.playerBetTypes[player.id] = ACTION_TYPES.BET;
         events.push({
           type: 'bet',
           playerId: player.id,
@@ -227,6 +234,7 @@ export function executeAction(gameState, actionType, amount = 0) {
         }
         hand.currentBetLine = Math.max(hand.currentBetLine, newTotal);
         player.status = PLAYER_STATUS.ALLIN;
+        hand.playerBetTypes[player.id] = ACTION_TYPES.ALLIN;
         events.push({
           type: 'allin',
           playerId: player.id,
@@ -241,6 +249,7 @@ export function executeAction(gameState, actionType, amount = 0) {
         hand.playerTotalContributions[player.id] = (hand.playerTotalContributions[player.id] || 0) + raiseAmount;
         hand.lastRaiseSize = raiseSize;
         hand.currentBetLine = newTotal;
+        hand.playerBetTypes[player.id] = ACTION_TYPES.RAISE;
         events.push({
           type: 'raise',
           playerId: player.id,
@@ -277,6 +286,7 @@ export function executeAction(gameState, actionType, amount = 0) {
       }
 
       player.status = PLAYER_STATUS.ALLIN;
+      hand.playerBetTypes[player.id] = ACTION_TYPES.ALLIN;
       events.push({
         type: 'allin',
         playerId: player.id,

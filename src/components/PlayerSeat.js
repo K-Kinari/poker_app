@@ -2,7 +2,7 @@
 
 import { el } from '../utils/dom.js';
 import { formatChips } from '../utils/formatters.js';
-import { PLAYER_STATUS } from '../utils/constants.js';
+import { ACTION_TYPES, PLAYER_STATUS } from '../utils/constants.js';
 
 /**
  * プレイヤー座席を描画
@@ -11,12 +11,12 @@ import { PLAYER_STATUS } from '../utils/constants.js';
  * @returns {HTMLElement}
  */
 export function createPlayerSeat(player, opts = {}) {
-  const { isCurrent, position, currentBet, seatIndex } = opts;
+  const { isCurrent, position, seatIndex } = opts;
 
   let seatClass = 'seat glass';
   if (isCurrent) seatClass += ' seat--current';
   else if (player.status === PLAYER_STATUS.ACTIVE) seatClass += ' seat--active';
-  
+
   if (player.status === PLAYER_STATUS.FOLDED || player.status === PLAYER_STATUS.AWAY || player.joinNextHand) {
     seatClass += ' seat--folded';
   }
@@ -25,7 +25,6 @@ export function createPlayerSeat(player, opts = {}) {
 
   const container = el('div', { className: seatClass, dataset: { seat: seatIndex } });
 
-  // バッジ行
   const badges = el('div', { className: 'seat__badges' });
   if (position) {
     const badgeClass = position === 'BTN' ? 'badge--btn' : position === 'SB' ? 'badge--sb' : 'badge--bb';
@@ -45,16 +44,21 @@ export function createPlayerSeat(player, opts = {}) {
   }
   container.appendChild(badges);
 
-  // 名前
   container.appendChild(el('div', { className: 'seat__name', text: player.name }));
-
-  // スタック
   container.appendChild(el('div', { className: 'seat__stack', text: formatChips(player.stack) }));
 
-  // 現在ベット額
-  if (currentBet && currentBet > 0) {
-    container.appendChild(el('div', { className: 'seat__bet', text: `Bet ${formatChips(currentBet)}` }));
-  }
-
   return container;
+}
+
+export function createBetDisplay(amount, actionType) {
+  if (!amount || amount <= 0) return null;
+
+  let variant = 'raise';
+  if (actionType === ACTION_TYPES.CALL) variant = 'call';
+  if (actionType === ACTION_TYPES.ALLIN) variant = 'allin';
+
+  return el('div', {
+    className: `seat-bet seat-bet--${variant}`,
+    text: formatChips(amount),
+  });
 }

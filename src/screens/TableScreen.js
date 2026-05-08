@@ -7,7 +7,7 @@ import { gameStore } from '../store/GameStore.js';
 import { getAvailableActions } from '../core/ActionValidator.js';
 import { getPlayerBySeat } from '../core/SeatManager.js';
 import { getTotalPot } from '../core/PotManager.js';
-import { createPlayerSeat } from '../components/PlayerSeat.js';
+import { createBetDisplay, createPlayerSeat } from '../components/PlayerSeat.js';
 import { createPotDisplay } from '../components/PotDisplay.js';
 import { createActionButtons } from '../components/ActionButtons.js';
 import { createSmartRaiseSlider } from '../components/SmartRaiseSlider.js';
@@ -65,12 +65,16 @@ export function renderTableScreen(container, onAction, onAdminOpen) {
     const seatEl = createPlayerSeat(player, {
       isCurrent: si === hand.currentTurnSeatIndex,
       position: getPosition(si),
-      currentBet: hand.playerBets[player.id] || 0,
       seatIndex: si,
     });
     // グリッドセル用のラッパーdivで包む
-    const wrapper = el('div', { className: slotClass });
+    const wrapper = el('div', { className: `${slotClass} seat-slot` });
     wrapper.appendChild(seatEl);
+    const betDisplay = createBetDisplay(
+      hand.playerBets[player.id] || 0,
+      hand.playerBetTypes?.[player.id]
+    );
+    if (betDisplay) wrapper.appendChild(betDisplay);
     screen.appendChild(wrapper);
   });
 
